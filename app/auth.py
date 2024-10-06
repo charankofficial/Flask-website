@@ -61,35 +61,28 @@
 #     session.pop('user', None)
 #     flash('You have been logged out.', category='success')
 #     return redirect(url_for('auth.login'))
-
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import bcrypt
 from .firebase_connect import get_firestore_client
 
-# Create the blueprint for auth
 auth = Blueprint('auth', __name__, template_folder='../templates')
 
-# Get Firestore client
 db = get_firestore_client()
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        # Get the email and password from the form
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # Check if user already exists
         users_ref = db.collection('users')
         existing_user_query = users_ref.where('email', '==', email).get()
 
         if existing_user_query:
             flash('Email address already exists.', category='error')
         else:
-            # Hash the password using bcrypt
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-            # Create new user document in Firestore
             new_user = {
                 'email': email,
                 'password': hashed_password
@@ -104,11 +97,9 @@ def signup():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Get the email and password from the form
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # Query to find the user by email
         users_ref = db.collection('users')
         existing_user_query = users_ref.where('email', '==', email).get()
 
@@ -116,23 +107,28 @@ def login():
             user = existing_user_query[0].to_dict()
             stored_hashed_password = user['password']
 
-            # Verify the provided password with the stored hash
             if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
-                # Passwords match
-                session['user'] = email  # Store user in session
-                return render_template('mypage.html')  # Render mypage.html upon successful login
+                flash('Logged in successfully!', category='success')
+                session['user_email'] = email  
+                return redirect(url_for('auth.mypage')) 
             else:
-                # Passwords don't match
                 flash('Incorrect password. Please try again.', category='error')
         else:
-            # No user found
             flash('Email not found. Please sign up first.', category='error')
 
     return render_template('login.html')
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 def logout():
-    # Clear the session data to log out the user
-    session.pop('user', None)
+    session.pop('user_email', None)
     flash('You have been logged out.', category='success')
     return redirect(url_for('auth.login'))
+
+@auth.route('/mypage')
+def mypage():
+    if 'user_email' not in session:
+        flash('You need to log in first.', category='error')
+        return redirect(url_for('auth.login'))
+
+    user_email = session['user_email']
+    return render_template('mypage.html', user_email=user_email)
