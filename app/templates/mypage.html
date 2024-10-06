@@ -1,11 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Welcome Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='myp.css') }}">
 </head>
+
 <body>
-    <h1>Mypage</h1>
+    <header>
+        <h1>Welcome, {{ user_email }}!</h1>
+        <form action="{{ url_for('auth.logout') }}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+
+    <main>
+        <p>This is your personalized welcome page. Feel free to explore!</p>
+    </main>
 </body>
+
 </html>
