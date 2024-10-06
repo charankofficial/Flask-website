@@ -108,7 +108,6 @@ def login():
             stored_hashed_password = user['password']
 
             if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
-                flash('Logged in successfully!', category='success')
                 session['user_email'] = email  
                 return redirect(url_for('auth.mypage')) 
             else:
