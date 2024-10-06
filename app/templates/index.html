@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="testimonial wow fadeInUp" data-wow-delay="0.1s" id="review">
+        <div class="container">
+            <div class="testimonial-icon">
+                <i class="fa fa-quote-left"></i>
+            </div>
+            <div class="owl-carousel testimonials-carousel">
+                <div class="testimonial-item">
+                    <div class="testimonial-text">
+                        <p>
+                            எண்ணம் போல் வாழ்கை
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="owl-carousel testimonials-carousel">
+                <div class="testimonial-item">
+                    <div class="testimonial-text">
+                        <p>
+                            To know more about me Login
+                        </p>
+                        <a href="/login" class="button">Login</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <!-- <header class="header">
+        <div class="header-overlay">
+            <h1>Jovian Careers</h1>
+            <p>Shape the future of technology with us</p>
+        </div>
+    </header>
+
+    <section class="banner">
+        <img src="/static/banner.jpg" alt="Jovian Banner">
+    </section>
+
+    <main class="content">
+        <section class="about">
+            <h2>About Jovian</h2>
+            <p>Jovian is a technology-driven company committed to data innovation. We foster an inclusive, collaborative environment to achieve data excellence. Come join us in revolutionizing the tech landscape!</p>
+        </section>
+
+        <section class="jobs">
+            <h2>Job Openings</h2>
+            {% for job in jobs %}
+                <div class="job-listing">
+                    <div class="details">
+                        <strong>{{job['title']}}</strong><br>
+                        <b>Location :</b> {{job['location']}}<br>
+                        <b>Salary :</b>{{job['salary']}}
+                    </div>
+                    <a href="/apply/{{job['title']}}" class="button">Apply Now</a>
+
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Jovian Careers | All Rights Reserved</p>
+    </footer> -->
+</body>
+</html>
+
+          
