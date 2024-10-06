@@ -1,5 +1,4 @@
 from flask import Flask
-from .sqlconnect import get_sql_connect 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY']='CHAN'
